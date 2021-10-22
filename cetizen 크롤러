@@ -1,0 +1,49 @@
+import csv
+
+driver = webdriver.Chrome(path) 
+
+iphone11 = []
+for page in range(1, 14) :
+    url = 'https://market.cetizen.com/market.php?p=1&keyword_p=%BE%C6%C0%CC%C6%F911&pno=&just_one=&just_one_name=&product_no=&pw=&pm=&m_no=&p_title=&pname=&p_key=&p_modelno=&p_model=&storage=&p_cat=&pm_modal=&series_modal=&datamode=&q=&at=&section=&price_range=0%3B3000000&auc_price1=0&auc_price2=3%2C000%2C000&storage_range=0%3B1024&storage1=0&storage2=1024&escrow_motion=3&select_arrange=headnum&desc=+&remove_dup=&list_type=1'
+    driver.get(url)
+    time.sleep(2)
+    print('page  - ' , page)
+          
+    
+    for idx in range(1 , 61) :
+        section = driver.find_element_by_xpath('//*[@id="condition_Form"]/div[3]/div[2]/div[3]/div[{}]/div/div[2]/div[1]/div[1]/a'.format(idx))
+        section.click()
+        driver.implicitly_wait(20)
+        
+        selldate = driver.find_element_by_xpath('//*[@id="main_container"]/div[2]/div[2]/div/div/div/span[2]')
+        title = driver.find_element_by_xpath('//*[@id="main_container"]/div[3]/div[2]/div/div[1]/div[2]/div/div/span[1]')
+        price = driver.find_element_by_xpath('//*[@id="main_container"]/div[3]/div[2]/div/div[17]/div[2]/span[2]')
+        content = driver.find_element_by_xpath('//*[@id="pills-desc"]/div')
+        quality = driver.find_element_by_xpath('//*[@id="main_container"]/div[3]/div[2]/div/div[7]')
+        expiration = driver.find_element_by_xpath('//*[@id="main_container"]/div[3]/div[2]/div/div[15]/div[2]/div[2]')
+
+        temp = []
+        temp.append(selldate.text)
+        temp.append(title.text)
+        temp.append(price.text)
+        temp.append(content.text)
+        temp.append(quality.text)
+        temp.append(expiration.text)
+        iphone11.append(temp)
+        print(selldate.text)
+        print(title.text)
+        print(price.text)
+        print(content.text)
+        print(quality.text)
+        print(expiration.text)
+        driver.back()
+        time.sleep(2)
+
+with open('iphon11_fin.csv', 'w', encoding='utf-8', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow(['판매일', '제목', '가격', '내용', '품질', '보증기간'])
+    writer.writerows(iphone11)
+
+print('file save ok')
+
+driver.close()
