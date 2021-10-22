@@ -8,57 +8,67 @@ start = time.time()
 driver = webdriver.Chrome(path) 
 driver.get('https://m.bunjang.co.kr/search/products?q=%EC%95%84%EC%9D%B4%ED%8F%B011&order=date&page=1&category_id=600700001')
 
-try:
-    iphone11 = []
-    for page in range(1, 209) :
-        url = 'https://m.bunjang.co.kr/search/products?q=%EC%95%84%EC%9D%B4%ED%8F%B011&order=date&page='+str(page)+'&category_id=600700001'
-        driver.get(url)
-        driver.implicitly_wait(20)
-        print('page  - ' , page)
 
-        for idx in range(1, 101):
+iphone11 = []
+for page in range(74, 75) :
+    url = 'https://m.bunjang.co.kr/search/products?q=%EC%95%84%EC%9D%B4%ED%8F%B011&order=date&page='+str(page)+'&category_id=600700001'
+    driver.get(url)
+    driver.implicitly_wait(20)
+    print('page  - ' , page)
+    
+    
+    try:
+        for idx in range(1, 10):
             section = driver.find_element_by_xpath('//*[@id="root"]/div/div/div[4]/div/div[3]/div/div[{}]/a'.format(idx))
             section.click()
             driver.implicitly_wait(20)
 
-            elem = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH,'''//*[@id="root"]/div/div/div[4]/div[1]/div/div[2]/div/div[2]/div/div[1]/div[2]/div[1]/div/div[3]''')))
+
             selldate = driver.find_element_by_xpath('//*[@id="root"]/div/div/div[4]/div[1]/div/div[2]/div/div[2]/div/div[1]/div[2]/div[1]/div/div[3]')
 
-            elem = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH,'''//*[@id="root"]/div/div/div[4]/div[1]/div/div[2]/div/div[2]/div/div[1]/div[1]/div[1]''')))
+
             title = driver.find_element_by_xpath('//*[@id="root"]/div/div/div[4]/div[1]/div/div[2]/div/div[2]/div/div[1]/div[1]/div[1]')
 
-            elem = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH,'''//*[@id="root"]/div/div/div[4]/div[1]/div/div[2]/div/div[2]/div/div[1]/div[1]/div[2]/div''')))
+
             price = driver.find_element_by_xpath('//*[@id="root"]/div/div/div[4]/div[1]/div/div[2]/div/div[2]/div/div[1]/div[1]/div[2]/div')
 
-            elem = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH,'''//*[@id="root"]/div/div/div[4]/div[1]/div/div[4]/div[1]/div[2]/div[1]/div[2]/div[2]''')))
-            content = driver.find_element_by_xpath('//*[@id="root"]/div/div/div[4]/div[1]/div/div[4]/div[1]/div[2]/div[1]/div[2]/div[2]')
+
+            content = driver.find_element_by_xpath('//*[@id="root"]/div/div/div[4]/div[1]/div/div[4]/div[1]/div[2]/div[1]/div[2]/div[2] | //*[@id="root"]/div/div/div[4]/div[1]/div/div[5]/div[1]/div[2]/div[1]/div[2]/div[2]')
+
+            used = driver.find_element_by_xpath('//*[@id="root"]/div/div/div[4]/div[1]/div/div[2]/div/div[2]/div/div[1]/div[2]/div[2]/div[1]/div[2]')
+
+            location = driver.find_element_by_xpath('//*[@id="root"]/div/div/div[4]/div[1]/div/div[2]/div/div[2]/div/div[1]/div[2]/div[2]/div[4]/div[2]')
 
             temp = []
             temp.append(selldate.text)
             temp.append(title.text)
             temp.append(price.text)
             temp.append(content.text)
+            temp.append(used.text)
+            temp.append(location.text)
             iphone11.append(temp)
 
-    #         print(selldate.text)
-    #         print(title.text)
-    #         print(price.text)
-    #         print(content.text)
-            driver.back()
-            driver.implicitly_wait(20)
+            #print(selldate.text)
+            #print(title.text)
+            #print(price.text)
+            #print(content.text)
+            #print(used.text)
+            #print(location.text)
 
-except TimeoutException:
-    print('timeout exception')
+
+            driver.back()
+            print('페이지 {} - 상품{}'.format(page, idx))
+            driver.implicitly_wait(20)
+        
+    except:
+        print('error')
+        
 
 with open('iphon11_fin.csv', 'w', encoding='utf-8', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(['판매일', '제목', '가격', '내용'])
     writer.writerows(iphone11)
-# with open('iphon11_01.csv' , 'w' , encoding='utf-8') as file :
-#     file.write('date,title,price,content\n')
-#     for data in iphone11 :
-#         file.write('{},{},{},{}\n'.format(data[0] , data[1] , data[2] , data[3]))
+
 
 print('file save ok')
 print('time :', time.time() - start)
-driver.close()
