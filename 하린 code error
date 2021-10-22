@@ -19,18 +19,18 @@ for page in range(1, 2) :
         price = driver.find_element_by_xpath('//*[@id="main_container"]/div[3]/div[2]/div/div[17]/div[2]/span[2]')
         content = driver.find_element_by_xpath('//*[@id="pills-desc"]/div')
 
-    temp = []
-    temp.append(selldate.text)
-    temp.append(title.text)
-    temp.append(price.text)
-    temp.append(content.text)
-    iphone11.append(temp)
-    print(selldate.text)
-    print(title.text)
-    print(price.text)
-    print(content.text)
-    driver.back()
-    time.sleep(2)
+        temp = []
+        temp.append(selldate.text)
+        temp.append(title.text)
+        temp.append(price.text)
+        temp.append(content.text)
+        iphone11.append(temp)
+        print(selldate.text)
+        print(title.text)
+        print(price.text)
+        print(content.text)
+        driver.back()
+        time.sleep(2)
 
 with open('iphon11_fin.csv', 'w', encoding='utf-8', newline='') as file:
     writer = csv.writer(file)
