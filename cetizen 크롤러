@@ -4,7 +4,7 @@ driver = webdriver.Chrome(path)
 
 iphone11 = []
 for page in range(1, 14) :
-    url = 'https://market.cetizen.com/market.php?p=1&keyword_p=%BE%C6%C0%CC%C6%F911&pno=&just_one=&just_one_name=&product_no=&pw=&pm=&m_no=&p_title=&pname=&p_key=&p_modelno=&p_model=&storage=&p_cat=&pm_modal=&series_modal=&datamode=&q=&at=&section=&price_range=0%3B3000000&auc_price1=0&auc_price2=3%2C000%2C000&storage_range=0%3B1024&storage1=0&storage2=1024&escrow_motion=3&select_arrange=headnum&desc=+&remove_dup=&list_type=1'
+    url = 'https://market.cetizen.com/market.php?p=1&keyword_p=%BE%C6%C0%CC%C6%F911&pno=&just_one=&just_one_name=&product_no=&pw=&pm=&m_no=&p_title=&pname=&p_key=&p_modelno=&p_model=&storage=&p_cat=&pm_modal=&series_modal=&datamode=&q=&at=&section=&price_range=0%3B3000000&auc_price1=0&auc_price2=3%2C000%2C000&storage_range=0%3B1024&storage1=0&storage2=1024&escrow_motion=3&select_arrange=headnum&desc=+&remove_dup=&list_type=1&p=2&p='+str(page)+''
     driver.get(url)
     time.sleep(2)
     print('page  - ' , page)
