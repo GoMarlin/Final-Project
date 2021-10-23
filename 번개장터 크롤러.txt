@@ -10,18 +10,19 @@ driver.get('https://m.bunjang.co.kr/search/products?q=%EC%95%84%EC%9D%B4%ED%8F%B
 
 
 iphone11 = []
-for page in range(74, 75) :
+for page in range(125, 126) :
     url = 'https://m.bunjang.co.kr/search/products?q=%EC%95%84%EC%9D%B4%ED%8F%B011&order=date&page='+str(page)+'&category_id=600700001'
     driver.get(url)
-    driver.implicitly_wait(20)
+    driver.implicitly_wait(5)
     print('page  - ' , page)
     
-    
     try:
-        for idx in range(1, 10):
+        for idx in range(1, 101):
             section = driver.find_element_by_xpath('//*[@id="root"]/div/div/div[4]/div/div[3]/div/div[{}]/a'.format(idx))
             section.click()
-            driver.implicitly_wait(20)
+            driver.implicitly_wait(5)
+            global selled
+            selled = idx
 
 
             selldate = driver.find_element_by_xpath('//*[@id="root"]/div/div/div[4]/div[1]/div/div[2]/div/div[2]/div/div[1]/div[2]/div[1]/div/div[3]')
@@ -62,11 +63,28 @@ for page in range(74, 75) :
         
     except:
         print('error')
+        driver.back()
+        for i in range(selled, 101):
+            temp01 = []
+            selleddate01 = driver.find_element_by_xpath('//*[@id="root"]/div/div/div[4]/div/div[3]/div/div[{}]/a/div[2]/div[2]/div[2]/span'.format(i))
+            title01 = driver.find_element_by_xpath('//*[@id="root"]/div/div/div[4]/div/div[3]/div/div[{}]/a/div[2]/div[1]'.format(i))
+            price01 = driver.find_element_by_xpath('//*[@id="root"]/div/div/div[4]/div/div[3]/div/div[{}]/a/div[2]/div[2]/div[1]'.format(i))
+            location01 = driver.find_element_by_xpath('//*[@id="root"]/div/div/div[4]/div/div[3]/div/div[{}]/a/div[3]'.format(i))
+            temp01.append(selleddate01.text)
+            temp01.append(title01.text)
+            temp01.append(price01.text)
+            temp01.append('판매된 상품')
+            temp01.append('판매된 상품')
+            temp01.append(location01.text)
+            iphone11.append(temp01)
+            print('판매된 상품', i)
+
+        
         
 
-with open('iphon11_fin.csv', 'w', encoding='utf-8', newline='') as file:
+with open('iphon11_test.csv', 'w', encoding='utf-8', newline='') as file:
     writer = csv.writer(file)
-    writer.writerow(['판매일', '제목', '가격', '내용'])
+    writer.writerow(['판매일', '제목', '가격', '내용', '중고여부', '지역'])
     writer.writerows(iphone11)
 
 
