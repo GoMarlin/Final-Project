@@ -1,0 +1,41 @@
+print('xpath - ')
+print()
+print()
+driver = webdriver.Chrome(path) 
+url = 'https://www.daangn.com/search/%EA%B0%A4%EB%9F%AD%EC%8B%9C%20s10'
+driver.get(url)
+         
+galaxys10 = []
+
+for i in range(1, 1000) :
+    moreBtn = driver.find_element_by_xpath('//*[@id="result"]/div[1]/div[2]/span')
+    moreBtn.click()
+    time.sleep(1)
+    
+    for idx in range(12*i-11, 12*i+1) :
+        a_tag_x_path = driver.find_element_by_xpath('//*[@id="flea-market-wrap"]/article[{}]'.format(idx))
+        a_tag_x_path.click()
+        time.sleep(2)
+        
+        selldate = driver.find_element_by_xpath('//*[@id="article-category"]/time')
+        title = driver.find_element_by_xpath('//*[@id="article-title"]')
+        price = driver.find_element_by_xpath('//*[@id="article-price"] | //*[@id="article-price-nanum"]')
+        content = driver.find_element_by_xpath('//*[@id="article-detail"]/p')
+        region = driver.find_element_by_xpath('//*[@id="region-name"]')
+        temp = []
+        temp.append(selldate.text)
+        temp.append(title.text)
+        temp.append(price.text)
+        temp.append(content.text)
+        temp.append(region.text)
+        galaxys10.append(temp)
+        print(selldate.text)
+        print(title.text)
+        print(price.text)
+        print(content.text)
+        print(region.text)
+        driver.back()
+        time.sleep(1)
+
+time.sleep(5)
+driver.quit()
